@@ -6,7 +6,7 @@ import string
 
 import cats
 from gui_files.common_server import Server, route, sendto, start
-from multiplayer import multiplayer
+from gui_files.multiplayer import create_multiplayer_server, db_init
 
 PORT = 31415
 DEFAULT_SERVER = "https://cats.cs61a.org"
@@ -119,7 +119,7 @@ def fastest_words(prompt, targets):
     return cats.fastest_words(match)
 
 
-multiplayer.create_multiplayer_server()
+create_multiplayer_server()
 
 ###############
 # Favicons #
@@ -139,4 +139,4 @@ def favicon():
 
 
 if __name__ == "__main__" or os.environ.get("ENV") == "prod":
-    app = start(PORT, DEFAULT_SERVER, GUI_FOLDER, multiplayer.db_init)
+    app = start(PORT, DEFAULT_SERVER, GUI_FOLDER, db_init)
