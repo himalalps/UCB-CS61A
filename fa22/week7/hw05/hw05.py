@@ -10,7 +10,18 @@ def merge(a, b):
     >>> [next(result) for _ in range(10)]
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
-    "*** YOUR CODE HERE ***"
+    na, nb = next(a), next(b)
+    while True:
+        if na == nb:
+            yield na
+            na = next(a)
+            nb = next(b)
+        elif na < nb:
+            yield na
+            na = next(a)
+        else:
+            yield nb
+            nb = next(b)
 
 
 def gen_perms(seq):
@@ -35,7 +46,21 @@ def gen_perms(seq):
     >>> sorted(gen_perms("ab"))
     [['a', 'b'], ['b', 'a']]
     """
-    "*** YOUR CODE HERE ***"
+    def perm(perms, x, i):
+        l = list(perms)
+        for ind in range(len(l)):
+            if ind == i:
+                yield x
+            yield l[ind]
+        if len(l) == i:
+            yield x
+
+    if len(seq) == 1:
+        yield seq
+        return
+    for perms in gen_perms(seq[1:]):
+        for i in range(len(seq)):
+            yield list(perm(perms, seq[0], i))
 
 
 def yield_paths(t, value):
@@ -72,10 +97,11 @@ def yield_paths(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-    "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+    if label(t) == value:
+        yield [label(t)]
+    for branch in branches(t):
+        for path in yield_paths(branch, value):
+            yield [label(t)] + path
 
 
 def hailstone(n):
@@ -88,7 +114,26 @@ def hailstone(n):
     >>> next(hail_gen)
     1
     """
-    "*** YOUR CODE HERE ***"
+    yield n
+    if n == 1:
+        yield from hailstone(1)
+    elif n % 2:
+        yield from hailstone(3 * n + 1)
+    else:
+        yield from hailstone(n // 2)
+
+
+"""
+another way of hailstone:
+    while True:
+        yield n
+        if n == 1:
+            continue
+        elif n % 2:
+            n = 3 * n + 1
+        else:
+            n = n // 2
+"""
 
 
 def remainders_generator(m):
@@ -122,7 +167,14 @@ def remainders_generator(m):
     7
     11
     """
-    "*** YOUR CODE HERE ***"
+    def remainder_gen(m, r):
+        i = 1
+        while True:
+            if i % m == r:
+                yield i
+            i += 1
+    for i in range(m):
+        yield remainder_gen(m, i)
 
 
 # Tree ADT
