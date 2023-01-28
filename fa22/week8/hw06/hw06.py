@@ -33,10 +33,10 @@ class Mint:
         self.update()
 
     def create(self, coin):
-        "*** YOUR CODE HERE ***"
+        return coin(self.year)
 
     def update(self):
-        "*** YOUR CODE HERE ***"
+        self.year = self.present_year
 
 
 class Coin:
@@ -46,7 +46,7 @@ class Coin:
         self.year = year
 
     def worth(self):
-        "*** YOUR CODE HERE ***"
+        return self.cents + max(0, Mint.present_year - self.year - 50)
 
 
 class Nickel(Coin):
@@ -73,7 +73,10 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
-    "*** YOUR CODE HERE ***"
+    ret, n = Link(n % 10), n // 10
+    while n:
+        ret, n = Link(n % 10, ret), n // 10
+    return ret
 
 
 def deep_map_mut(func, lnk):
@@ -93,7 +96,12 @@ def deep_map_mut(func, lnk):
     >>> print(link1)
     <9 <16> 25 36>
     """
-    "*** YOUR CODE HERE ***"
+    if isinstance(lnk.first, Link):
+        deep_map_mut(func, lnk.first)
+    else:
+        lnk.first = func(lnk.first)
+    if lnk.rest:
+        deep_map_mut(func, lnk.rest)
 
 
 def two_list(vals, counts):
@@ -115,7 +123,13 @@ def two_list(vals, counts):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
+    if len(vals) == 0:
+        return Link.empty
+    if counts[0] == 1:
+        return Link(vals[0], two_list(vals[1:], counts[1:]))
+    else:
+        counts[0] -= 1
+        return Link(vals[0], two_list(vals, counts))
 
 
 class VirFib():
@@ -139,12 +153,17 @@ class VirFib():
     >>> start.next().next().next().next().next().next() # Ensure start isn't changed
     VirFib object, value 8
     """
+    values = [0, 1]
 
-    def __init__(self, value=0):
+    def __init__(self, value=0, index=0):
         self.value = value
+        self.index = index
 
     def next(self):
-        "*** YOUR CODE HERE ***"
+        if len(VirFib.values) <= self.index + 1:
+            VirFib.values.append(
+                VirFib.values[self.index - 1] + VirFib.values[self.index])
+        return VirFib(VirFib.values[self.index + 1], self.index + 1)
 
     def __repr__(self):
         return "VirFib object, value " + str(self.value)
@@ -175,7 +194,28 @@ def is_bst(t):
     >>> is_bst(t7)
     False
     """
-    "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return True
+    if len(t.branches) == 1 and (t.label == bst_max(t) or t.label == bst_min(t)) and is_bst(t.branches[0]):
+        return True
+    if len(t.branches) == 2 and is_bst(t.branches[0]) and is_bst(t.branches[1]) and bst_max(t.branches[0]) <= t.label <= bst_min(t.branches[1]):
+        return True
+    return False
+
+
+def bst_min(t):
+    if t.is_leaf():
+        return t.label
+    return min(t.label, bst_min(t.branches[0]))
+
+
+def bst_max(t):
+    if t.is_leaf():
+        return t.label
+    if len(t.branches) == 2:
+        return bst_max(t.branches[1])
+    else:
+        return max(t.label, bst_max(t.branches[0]))
 
 
 class Link:
