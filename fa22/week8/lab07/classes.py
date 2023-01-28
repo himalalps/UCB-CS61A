@@ -23,7 +23,9 @@ class Card:
         >>> other_staff.defense
         500
         """
-        "*** YOUR CODE HERE ***"
+        self.name = name
+        self.attack = attack
+        self.defense = defense
 
     def power(self, opponent_card):
         """
@@ -41,7 +43,7 @@ class Card:
         >>> third_card.power(staff_member)
         -100
         """
-        "*** YOUR CODE HERE ***"
+        return self.attack - opponent_card.defense
 
     def effect(self, opponent_card, player, opponent):
         """
@@ -79,7 +81,9 @@ class Player:
         """
         self.deck = deck
         self.name = name
-        "*** YOUR CODE HERE ***"
+        self.hand = []
+        for _ in range(5):
+            self.hand.append(deck.draw())
 
     def draw(self):
         """Draw a card from the player's deck and add it to their hand.
@@ -93,7 +97,7 @@ class Player:
         6
         """
         assert not self.deck.is_empty(), 'Deck is empty!'
-        "*** YOUR CODE HERE ***"
+        self.hand.append(self.deck.draw())
 
     def play(self, index):
         """Remove and return a card from the player's hand at the given INDEX.
@@ -109,7 +113,7 @@ class Player:
         >>> len(test_player.hand)
         2
         """
-        "*** YOUR CODE HERE ***"
+        return self.hand.pop(index)
 
     def display_hand(self):
         """
@@ -154,8 +158,9 @@ class AICard(Card):
         >>> initial_deck_length == len(player1.deck.cards) + 2
         True
         """
-        "*** YOUR CODE HERE ***"
-        implemented = False
+        player.hand.append(player.deck.draw())
+        player.hand.append(player.deck.draw())
+        implemented = True
         # You should add your implementation above this.
         if implemented:
             print(f"{self.name} allows me to draw two cards!")
@@ -197,13 +202,17 @@ class TutorCard(Card):
         >>> test_card.power(opponent_card) < opponent_card.power(test_card)
         True
         """
-        "*** YOUR CODE HERE ***"
-        added = False
+        if len(player.hand):
+            added = True
+            player.hand.append(player.hand[0].copy())
+        else:
+            added = False
         # You should add your implementation above this.
         if added:
             print(f"{self.name} allows me to add a copy of a card to my hand!")
 
-    "*** YOUR CODE HERE ***"
+    def power(self, oppent_card):
+        return -float('inf')
 
     def copy(self):
         """
@@ -237,11 +246,20 @@ class TACard(Card):
         >>> print(test_card.attack, test_card.defense)
         600 500
         """
-        "*** YOUR CODE HERE ***"
-        best_card = None
+        if len(player.hand):
+            best, best_card = player.hand[0].power(opponent_card), player.hand[0]
+            for card in player.hand:
+                if card.power(opponent_card) > best:
+                    best, best_card = card.power(opponent_card), card
+            self.attack += best_card.attack
+            self.defense += best_card.defense
+            player.hand.remove(best_card)
+        else:
+            best_card = None
         # You should add your implementation above this.
         if best_card:
-            print(f"{self.name} discards {best_card.name} from my hand to increase its own power!")
+            print(
+                f"{self.name} discards {best_card.name} from my hand to increase its own power!")
 
     def copy(self):
         """
@@ -276,8 +294,13 @@ class InstructorCard(Card):
         >>> print(test_card.attack, test_card.defense)
         -1000 -1000
         """
-        "*** YOUR CODE HERE ***"
-        re_add = False
+        self.attack -= 1000
+        self.defense -= 1000
+        if self.attack >= 0 or self.defense >= 0:
+            re_add = True
+            player.hand.append(self)
+        else:
+            re_add = False
         # You should add your implementation above this.
         if re_add:
             print(f"{self.name} returns to my hand!")
@@ -351,7 +374,8 @@ class Game:
             result = 'tied'
         # Display results to user.
         print('You {} this round!'.format(result))
-        print('{}\'s card: {}; Power: {}'.format(self.player1.name, p1_card, p1_power))
+        print('{}\'s card: {}; Power: {}'.format(
+            self.player1.name, p1_card, p1_power))
         print('Opponent\'s card: {}; Power: {}'.format(p2_card, p2_power))
 
     def game_won(self):
