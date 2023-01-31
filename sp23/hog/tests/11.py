@@ -1,13 +1,13 @@
 test = {
-  'name': 'my-filter',
-  'points': 1,
+  'name': 'Question 11',
+  'points': 2,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          scm> (my-filter even? '(1 2 3 4))
-          (2 4)
+          >>> square_strategy(40, 51, threshold=7, num_rolls=2)
+          0
           """,
           'hidden': False,
           'locked': False,
@@ -15,8 +15,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (my-filter odd? '(1 3 5))
-          (1 3 5)
+          >>> square_strategy(40, 53, threshold=7, num_rolls=2)
+          2
           """,
           'hidden': False,
           'locked': False,
@@ -24,8 +24,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (my-filter odd? '(2 4 6 1))
-          (1)
+          >>> square_strategy(44, 53, threshold=7, num_rolls=2)
+          0
           """,
           'hidden': False,
           'locked': False,
@@ -33,8 +33,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (my-filter even? '(3))
-          ()
+          >>> square_strategy(44, 53, threshold=12, num_rolls=5)
+          0
           """,
           'hidden': False,
           'locked': False,
@@ -42,8 +42,13 @@ test = {
         },
         {
           'code': r"""
-          scm> (my-filter odd? nil)
-          ()
+          >>> s = 0
+          >>> while s < 100:
+          ...     if square_update(0, 20, s) - 20 >= 10:
+          ...         assert square_strategy(20, s, threshold=10, num_rolls=3) == 0
+          ...     else:
+          ...         assert square_strategy(20, s, threshold=10, num_rolls=3) == 3
+          ...     s += 1
           """,
           'hidden': False,
           'locked': False,
@@ -52,30 +57,10 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      scm> (load-all ".")
+      >>> from hog import *
       """,
       'teardown': '',
-      'type': 'scheme'
-    },
-    {
-      'cases': [
-        {
-          'code': r"""
-          scm> (my-filter even? '(1 2 3 4)) ; checks you dont use builtin filter
-          (2 4)
-          """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': True,
-      'setup': r"""
-      scm> (define filter nil)
-      scm> (load-all ".")
-      """,
-      'teardown': '',
-      'type': 'scheme'
+      'type': 'doctest'
     }
   ]
 }

@@ -1,13 +1,13 @@
 test = {
-  'name': 'What Would Scheme Print?',
-  'points': 1,
+  'name': 'Question 2',
+  'points': 2,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          scm> (cons 1 (cons 2 nil))
-          (1 2)
+          >>> tail_points(25)
+          7
           """,
           'hidden': False,
           'locked': False,
@@ -15,7 +15,16 @@ test = {
         },
         {
           'code': r"""
-          scm> (car (cons 1 (cons 2 nil)))
+          >>> tail_points(52)
+          7
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> tail_points(0)
           1
           """,
           'hidden': False,
@@ -24,8 +33,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (cdr (cons 1 (cons 2 nil)))
-          (2)
+          >>> tail_points(7)
+          15
           """,
           'hidden': False,
           'locked': False,
@@ -33,8 +42,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (list 1 2 3)
-          (1 2 3)
+          >>> tail_points(22)
+          1
           """,
           'hidden': False,
           'locked': False,
@@ -42,8 +51,8 @@ test = {
         },
         {
           'code': r"""
-          scm> '(1 2 3)
-          (1 2 3)
+          >>> tail_points(122)
+          1
           """,
           'hidden': False,
           'locked': False,
@@ -51,8 +60,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 '(list 2 3))  ; Recall quoting
-          (1 list 2 3)
+          >>> tail_points(584)
+          9
           """,
           'hidden': False,
           'locked': False,
@@ -60,8 +69,9 @@ test = {
         },
         {
           'code': r"""
-          scm> '(cons 4 (cons (cons 6 8) ()))
-          (cons 4 (cons (cons 6 8) ()))
+          >>> a = tail_points(23)
+          >>> a # check that the value is being returned, not printed
+          3
           """,
           'hidden': False,
           'locked': False,
@@ -69,8 +79,11 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 (list (cons 3 nil) 4 5))
-          (1 (3) 4 5)
+          >>> tail_points(12345)
+          3
+          >>> # ban str and indexing (lists)
+          >>> test.check('hog.py', 'tail_points', ['Slice', 'List', 'ListComp', 'Index', 'Subscript', 'For'])
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -79,10 +92,11 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      
+      >>> from hog import *
+      >>> import tests.construct_check as test
       """,
       'teardown': '',
-      'type': 'scheme'
+      'type': 'doctest'
     }
   ]
 }

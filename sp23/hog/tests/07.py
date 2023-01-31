@@ -1,13 +1,13 @@
 test = {
-  'name': 'What Would Scheme Print?',
-  'points': 1,
+  'name': 'Question 7',
+  'points': 2,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          scm> (cons 1 (cons 2 nil))
-          (1 2)
+          >>> is_always_roll(always_roll_5)
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -15,8 +15,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (car (cons 1 (cons 2 nil)))
-          1
+          >>> is_always_roll(always_roll(3))
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -24,8 +24,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (cdr (cons 1 (cons 2 nil)))
-          (2)
+          >>> is_always_roll(catch_up)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -33,8 +33,13 @@ test = {
         },
         {
           'code': r"""
-          scm> (list 1 2 3)
-          (1 2 3)
+          >>> def s(x, y):
+          ...    if x == 0 and y == 0:
+          ...        return 0
+          ...    else:
+          ...        return 1
+          >>> is_always_roll(s)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -42,8 +47,13 @@ test = {
         },
         {
           'code': r"""
-          scm> '(1 2 3)
-          (1 2 3)
+          >>> def s(x, y):
+          ...    if x == 60 and y == 0:
+          ...        return 0
+          ...    else:
+          ...        return 1
+          >>> is_always_roll(s)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -51,8 +61,13 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 '(list 2 3))  ; Recall quoting
-          (1 list 2 3)
+          >>> def s(x, y):
+          ...    if x == 0 and y == 60:
+          ...        return 0
+          ...    else:
+          ...        return 1
+          >>> is_always_roll(s)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -60,8 +75,13 @@ test = {
         },
         {
           'code': r"""
-          scm> '(cons 4 (cons (cons 6 8) ()))
-          (cons 4 (cons (cons 6 8) ()))
+          >>> def s(x, y):
+          ...    if x == 60 and y == 60:
+          ...        return 0
+          ...    else:
+          ...        return 1
+          >>> is_always_roll(s)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -69,8 +89,13 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 (list (cons 3 nil) 4 5))
-          (1 (3) 4 5)
+          >>> def s(x, y):
+          ...    if x == 99 and y == 99:
+          ...        return 0
+          ...    else:
+          ...        return 1
+          >>> is_always_roll(s)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -79,10 +104,10 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      
+      >>> from hog import *
       """,
       'teardown': '',
-      'type': 'scheme'
+      'type': 'doctest'
     }
   ]
 }

@@ -1,13 +1,13 @@
 test = {
-  'name': 'What Would Scheme Print?',
+  'name': 'Question 4',
   'points': 1,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          scm> (cons 1 (cons 2 nil))
-          (1 2)
+          >>> perfect_square(9)
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -15,8 +15,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (car (cons 1 (cons 2 nil)))
-          1
+          >>> perfect_square(1)
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -24,8 +24,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (cdr (cons 1 (cons 2 nil)))
-          (2)
+          >>> perfect_square(2)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -33,8 +33,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (list 1 2 3)
-          (1 2 3)
+          >>> perfect_square(144)
+          True
           """,
           'hidden': False,
           'locked': False,
@@ -42,8 +42,8 @@ test = {
         },
         {
           'code': r"""
-          scm> '(1 2 3)
-          (1 2 3)
+          >>> perfect_square(150)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -51,8 +51,8 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 '(list 2 3))  ; Recall quoting
-          (1 list 2 3)
+          >>> perfect_square(8)
+          False
           """,
           'hidden': False,
           'locked': False,
@@ -60,8 +60,8 @@ test = {
         },
         {
           'code': r"""
-          scm> '(cons 4 (cons (cons 6 8) ()))
-          (cons 4 (cons (cons 6 8) ()))
+          >>> next_perfect_square(1)
+          4
           """,
           'hidden': False,
           'locked': False,
@@ -69,8 +69,35 @@ test = {
         },
         {
           'code': r"""
-          scm> (cons 1 (list (cons 3 nil) 4 5))
-          (1 (3) 4 5)
+          >>> next_perfect_square(9)
+          16
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> next_perfect_square(64)
+          81
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> next_perfect_square(144)
+          169
+          """,
+          'hidden': False,
+          'locked': False,
+          'multiline': False
+        },
+        {
+          'code': r"""
+          >>> next_perfect_square(81)
+          100
           """,
           'hidden': False,
           'locked': False,
@@ -79,10 +106,10 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      
+      >>> from hog import *
       """,
       'teardown': '',
-      'type': 'scheme'
+      'type': 'doctest'
     }
   ]
 }
