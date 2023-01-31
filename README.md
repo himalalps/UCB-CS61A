@@ -11,3 +11,4 @@ notes of learining CS61A of UCB
 # troubles
 
 1. fa22/week10/lab09 Q2
+2. project 4 challenge version seems a lot different from normal version, because it is not a completed skeleton

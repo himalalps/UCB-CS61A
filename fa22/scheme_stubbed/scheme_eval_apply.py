@@ -22,7 +22,7 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
     4
     """
     # BEGIN Problem 1/2
-    "*** YOUR CODE HERE ***"
+    
     # END Problem 1/2
 
 
