@@ -83,3 +83,19 @@
 	(if (null? pairs) (cons nil (cons nil nil))
 		(cons (cons (caar pairs) (car (zip (cdr pairs))))
 			(cons (cons (car (cdar pairs)) (cadr (zip (cdr pairs)))) nil))))
+
+; below is a way to run `let-to-lambda` on an interpreter
+; that does not recognize let
+;
+; ;; The let-to-lambda procedure
+; (define (let-to-lambda expr)
+;  ...)
+
+; ;; A list representing the let-to-lambda procedure
+; (define let-to-lambda-code
+;  '(define (let-to-lambda expr)
+;     ...))
+
+; ;; A let-to-lambda procedure that does not use 'let'!
+; (define let-to-lambda-without-let
+;  (let-to-lambda let-to-lambda-code))

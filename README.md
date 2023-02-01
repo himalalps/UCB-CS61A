@@ -14,4 +14,4 @@ notes of learining CS61A of UCB
 2. project 4 challenge version seems a lot different from normal version, because it is not a completed skeleton
 
 # reference
-1. the project 4 EC is enlightened by these repositories: [1](https://github.com/forbidden-game/CS61A-2022) [2](https://github.com/Misaka-9982-coder/CS61A)
+some helpful repositories: [1](https://github.com/forbidden-game/CS61A-2022) [2](https://github.com/Misaka-9982-coder/CS61A) [3](https://github.com/czahie/CS61A)
