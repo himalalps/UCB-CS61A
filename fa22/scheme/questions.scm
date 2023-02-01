@@ -3,6 +3,7 @@
 (define (cdar x) (cdr (car x)))
 (define (cddr x) (cdr (cdr x)))
 
+
 ;; Problem 15
 ;; Returns a list of two-element lists
 (define (enumerate s)
@@ -41,12 +42,13 @@
 (define (let-to-lambda expr)
 	(cond 	((atom? expr)
 				; BEGIN OPTIONAL PROBLEM 2
-				'replace-this-line
+				expr
 				; END OPTIONAL PROBLEM 2
 				)
 			((quoted? expr)
 				; BEGIN OPTIONAL PROBLEM 2
-				'replace-this-line
+				(cons 'quote
+					(cdr expr))
 				; END OPTIONAL PROBLEM 2
 				)
 			((or	(lambda? expr)
@@ -55,23 +57,29 @@
 						(params (cadr expr))
 						(body	 (cddr expr)))
 					; BEGIN OPTIONAL PROBLEM 2
-					'replace-this-line
+					(cons form
+						(cons params 
+							(let-to-lambda body)))
 					; END OPTIONAL PROBLEM 2
 					))
 			((let? expr)
 				(let ((values (cadr expr))
 						(body	 (cddr expr)))
 					; BEGIN OPTIONAL PROBLEM 2
-					'replace-this-line
+					(cons (cons 'lambda
+								(cons (car (zip values)) (let-to-lambda body)))
+							(let-to-lambda (cadr (zip values))))
 					; END OPTIONAL PROBLEM 2
 					))
 			(else
 				; BEGIN OPTIONAL PROBLEM 2
-				'replace-this-line
+				(map let-to-lambda expr)
 				; END OPTIONAL PROBLEM 2
 				)))
 
 
 ; Some utility functions that you may find useful to implement for let-to-lambda
 (define (zip pairs)
-	'replace-this-line)
+	(if (null? pairs) (cons nil (cons nil nil))
+		(cons (cons (caar pairs) (car (zip (cdr pairs))))
+			(cons (cons (car (cdar pairs)) (cadr (zip (cdr pairs)))) nil))))
