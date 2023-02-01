@@ -235,7 +235,26 @@ def do_define_macro(expressions, env):
     1
     """
     # BEGIN PROBLEM OPTIONAL_1
-    "*** YOUR CODE HERE ***"
+    validate_form(
+        expressions, 2)  # Checks that expressions is a list of length at least 2
+    signature = expressions.first
+    if scheme_symbolp(signature):
+        # assigning a name to a value e.g. (define x (+ 1 2))
+        # Checks that expressions is a list of length exactly 2
+        validate_form(expressions, 2, 2)
+        env.bindings[signature] = expressions.rest.map(
+            lambda pair: scheme_eval(pair, env)).first
+        return signature
+    elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
+        # defining a macro procedure e.g. (define (f x y) (+ x y))
+        validate_formals(signature.rest)
+        env.bindings[signature.first] = MacroProcedure(
+            signature.rest, expressions.rest, env)
+        return signature.first
+    else:
+        bad_signature = signature.first if isinstance(
+            signature, Pair) else signature
+        raise SchemeError('non-symbol: {0}'.format(bad_signature))
     # END PROBLEM OPTIONAL_1
 
 

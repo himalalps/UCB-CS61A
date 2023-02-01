@@ -40,8 +40,14 @@ def scheme_eval(expr, env, _=None):  # Optional third argument is ignored
             procedure = first
         else:
             procedure = env.lookup(first)
-        rest = rest.map(lambda pair: scheme_eval(pair, env))
-        return scheme_apply(procedure, rest, env)
+        if isinstance(procedure, MacroProcedure):
+            frame = procedure.env.make_child_frame(procedure.formals, rest)
+            expr = eval_all(procedure.body, frame)
+            expr = scheme_eval(expr.expr, expr.env)
+            return scheme_eval(expr, env)
+        else:
+            rest = rest.map(lambda pair: scheme_eval(pair, env))
+            return scheme_apply(procedure, rest, env)
         # END PROBLEM 3
 
 
