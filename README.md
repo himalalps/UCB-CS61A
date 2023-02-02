@@ -2,7 +2,13 @@
 
 notes of learining CS61A of UCB
 
-[homepage of CS61A](cs61a.org)
+This is the [homepage of CS61A](cs61a.org).
+
+the notes are about the 2022 Fall semester, and this is [the course homepage of 22FA](https://inst.eecs.berkeley.edu/~cs61a/fa22/)
+
+there is also the labs and hws of 2023 Spring semester
+
+since 22fall didn't include the Regex and BNF part, 21fall part is included in this repository
 
 # corrections
 
