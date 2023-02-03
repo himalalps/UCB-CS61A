@@ -19,10 +19,7 @@ def roman_numerals(text):
     >>> roman_numerals("she loves ALL editors equally.")
     []
     """
-    return re.findall(__________, text)
-
-
-import re
+    return re.findall(r'\b[IVXLCDM]+\b', text)
 
 
 def cs_classes(post):
@@ -43,10 +40,7 @@ def cs_classes(post):
     >>> cs_classes("What are some good CS upper division courses? I was thinking about CS 161 or CS 169a")
     True
     """
-    return bool(re.search(__________, post))
-
-
-import re
+    return bool(re.search(r'(?:CS|cs).?\d+(?:A|a)', post))
 
 
 def match_time(text):
@@ -60,10 +54,7 @@ def match_time(text):
     >>> match_time("At 2:00 I pinged 127.0.0.1:80.")
     ['2:00']
     """
-    return re.findall(__________, text)
-
-
-import re
+    return re.findall(r'(?:[0-9]|[0-1][0-9]|2[0-3]):[0-5][0-9](?:AM|PM)?', text)
 
 
 def area_codes(text):
@@ -79,7 +70,7 @@ def area_codes(text):
     >>> area_codes("no matches for 12 3456 7890 or 09876-54321")
     []
     """
-    return re.findall(__________, text)
+    return re.findall(r'\(?(\d{3})\)?.?\d{3}.?\d{4}\b', text)
 
 
 def most_common_code(text):
@@ -97,4 +88,5 @@ def most_common_code(text):
     >>> most_common_code(input_text)
     '123'
     """
-    "*** YOUR CODE HERE ***"
+    codes = area_codes(text)
+    return max(codes, key=codes.count)

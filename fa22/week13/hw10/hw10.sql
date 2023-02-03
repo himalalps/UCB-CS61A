@@ -41,6 +41,7 @@ CREATE TABLE siblings AS
 	SELECT a.child AS first, b.child AS second, c.size AS third FROM parents AS a, parents AS b, size_of_dogs AS c, size_of_dogs AS d
 		WHERE a.parent = b.parent AND a.child < b.child AND	a.child = c.name AND b.child = d.name AND c.size = d.size;
 
+
 -- Sentences about siblings that are the same size
 CREATE TABLE sentences AS
 	SELECT "The two siblings, " || first || " plus " ||  second || " have the same size: " || third FROM siblings;
